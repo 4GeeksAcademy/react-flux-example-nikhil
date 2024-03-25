@@ -1,24 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import AddItem from "./AddItem";
+import MyContext from "../../GlobalContext";
+// import TaskContext from "../TaskContext";
 
 //create your first component
 const Home = () => {
+
+
+	const context = useContext(MyContext)
+
+	// const {tasks, taskActions} = useContext(TaskContext)
+
+	// const deleteTask = (index) => {
+	// 	taskActions({type: 'remove', id: index})
+	// }
+
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="container text-center">
+			<h2>Todo List</h2>
+			<h3>{context.store.userProfile.name}</h3>
+			<AddItem />
+			<ul>
+				{context.store.todos.length !== 0 && context.store.todos.map((task, index) => {
+					return <li key={task}>{task} <i className="far fa-trash-alt" onClick={() => context.actions.removeTask(index)}></i></li>
+				})}
+			</ul>
+			{/* <ul>
+				{tasks.length !== 0 && tasks.map((task, index) => {
+					return <li key={task}>{task} <i className="far fa-trash-alt" onClick={() => deleteTask(index)}></i></li>
+				})}
+			</ul> */}
 		</div>
 	);
 };
